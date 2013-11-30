@@ -41,7 +41,17 @@ task_three.out:
 		-file ./wc_reduce.rb -reducer ./wc_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_3.out/part-00000 | head -20 > task_three.out) || true
 
-assignment: task_one.out task_two.out task_three.out
+task_four.out:
+	($(exists) $(mydir)s0925570_task_4.out && $(delete) $(mydir)s0925570_task_4.out) || true
+	$(streaming) \
+		-D mapred.reduce.tasks=1 \
+		-input  /user/s1250553/ex2/web$(size).txt\
+		-output $(mydir)s0925570_task_4.out\
+		-file ./wc_map.rb -mapper ./wc_prob_map.rb\
+		-file ./wc_reduce.rb -reducer ./wc_reduce.rb
+	(hadoop dfs -cat $(mydir)s0925570_task_4.out/part-00000 | head -20 > task_four.out) || true
+
+assignment: task_one.out task_two.out task_three.out task_four.out
 
 clean:
 	rm ./*.out
