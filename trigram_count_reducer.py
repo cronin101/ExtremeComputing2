@@ -4,11 +4,23 @@ import fileinput
 
 trigram_count = {}
 
-for line in fileinput.input():
-    parts   = line.split('\t')
-    trigram = ' '.join(parts[:-1])
-    count   = int(parts[-1])
-    trigram_count[trigram] = trigram_count.get(trigram, 0) + count
+previous = None
+count = 0
 
-for trigram, count in trigram_count.iteritems():
-    print(trigram + "\t" + str(count))
+for line in fileinput.input():
+    parts = line.split()
+    trigram = ' '.join(parts[:-1])
+    par_count = int(parts[-1])
+
+    if not previous == trigram:
+      if previous:
+        print(previous + "\t" + str(count))
+
+      previous = trigram
+      count = par_count
+
+    else:
+      count += par_count
+
+if previous:
+  print(previous + "\t" + str(count))

@@ -52,12 +52,12 @@ task_four.out:
 	(hadoop dfs -cat $(mydir)s0925570_task_4.out/part-00000 | head -20 > task_four.out) || true
 
 task_five.out:
-	($(exsits)) $(mydir)s0925570_task_5.out && $(delete) $(mydir)s0925570_task_5.out) || true
+	($(exists) $(mydir)s0925570_task_5.out && $(delete) $(mydir)s0925570_task_5.out) || true
 	$(streaming) \
 		-input $(mydir)s0925570_task_2.out\
 		-output $(mydir)s0925570_task_5.out\
 		-file ./trigram_count_map.py -mapper ./trigram_count_map.py\
-		-file ./trigram_count_reducer.py -reducer ./trigram_count_reader.py
+		-file ./trigram_count_reducer.py -reducer ./trigram_count_reducer.py
 
 assignment: task_one.out task_two.out task_three.out task_four.out task_five.out
 
