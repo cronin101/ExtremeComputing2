@@ -2,7 +2,7 @@ streaming = hadoop jar /opt/hadoop/hadoop-0.20.2/contrib/streaming/hadoop-0.20.2
 exists = hadoop fs -test -e
 delete = hadoop dfs -rmr
 mydir = /user/s0925570/
-size = Small
+size = Large
 
 ./binaries/u_map:
 	ghc -O3 ./upper_map.hs -o ./binaries/u_map
