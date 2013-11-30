@@ -7,4 +7,4 @@ ARGF.each do |line|
   line.split(/\s/).length.times { words += 1 if rand(2 ** words).zero? }
 end
 
-puts "#{2 ** lines}\t#{2 ** words}"
+puts "#{(2 ** lines) - 1}\t#{(2 ** words) - 1}"
