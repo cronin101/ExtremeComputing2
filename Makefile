@@ -47,7 +47,7 @@ task_four.out:
 		-D mapred.reduce.tasks=1 \
 		-input  /user/s1250553/ex2/web$(size).txt\
 		-output $(mydir)s0925570_task_4.out\
-		-file ./wc_map.rb -mapper ./wc_prob_map.rb\
+		-file ./wc_prob_map.rb -mapper ./wc_prob_map.rb\
 		-file ./wc_reduce.rb -reducer ./wc_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_4.out/part-00000 | head -20 > task_four.out) || true
 
