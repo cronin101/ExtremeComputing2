@@ -1,4 +1,3 @@
-import System.IO (getContents)
 import Data.List (lines, unlines)
 import Data.List.Split (splitOn)
 import Data.String.Utils (join)
