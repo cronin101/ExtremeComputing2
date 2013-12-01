@@ -12,21 +12,21 @@ int main(const int argc, const char** argv) {
 
   rowbuffer = "";
 
-    while (getline(cin, line)){
-      stringstream ss(line);
-        getline(ss, row, '\t');
-        getline(ss, col, '\t');
-        getline(ss, n,   '\t');
+  while (getline(cin, line)){
+    stringstream ss(line);
+    getline(ss, row, '\t');
+    getline(ss, col, '\t');
+    getline(ss, n,   '\t');
 
-        int row_num = atoi(row.c_str());
+    int row_num = atoi(row.c_str());
 
-        if (current_row == row_num) {
-          rowbuffer += (n + " ");
-        } else {
-          cout << rowbuffer << endl;
-          current_row = row_num;
-          rowbuffer = (n + " ");
-        }
+    if (current_row == row_num) {
+      rowbuffer += (n + " ");
+    } else {
+      cout << rowbuffer << endl;
+      current_row = row_num;
+      rowbuffer = (n + " ");
     }
-    cout << rowbuffer << endl;
+  }
+  cout << rowbuffer << endl;
 }
