@@ -1,17 +1,20 @@
 #!/usr/bin/env ruby
 
-seen = false
+def format(join)
+  "#{join[:name]} --> " << join[:marks].map { |course, score| "(#{course}, #{score})" }.join(' ')
+end
+
+join = nil
 
 ARGF.each do |record|
-  if (fields = record.split)[1] = 'primary'
-    puts if seen
-    seen ||= true
-    _, _, name = fields
-    print "#{name} -->"
+  if (fields = record.split)[1] == 'primary'
+    puts format(join) if join && !join[:marks].empty?
+    join_id, _, name = fields
+    join = { :id => join_id, :name => name, :marks => [] }
   else
-    _, _, course_id, mark = fields
-    print " (#{course_id}, #{mark})"
+    join_id, _, course_id, mark = fields
+    join[:marks].push [course_id, mark] if join_id == join[:id]
   end
 end
 
-puts
+puts format(join) if join && !join[:marks].empty?

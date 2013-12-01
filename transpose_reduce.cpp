@@ -6,7 +6,7 @@
 using namespace std;
 
 int main(const int argc, const char** argv) {
-  int current_row = -1;
+  int current_row = 0;
   istringstream instream;
   string line, row, col, n, rowbuffer;
 
@@ -17,9 +17,6 @@ int main(const int argc, const char** argv) {
         getline(ss, row, '\t');
         getline(ss, col, '\t');
         getline(ss, n,   '\t');
-        cout << "Row is " << row << endl;
-        cout << "Col is " << col << endl;
-        cout << "N   is " << n   << endl;
 
         int row_num = atoi(row.c_str());
 
