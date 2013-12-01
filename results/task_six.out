@@ -9,8 +9,8 @@ PART OF THE	6027
 + C +	5680
 WRITE(A + C	5675
 C + B);//	5675
-+ B);// --	5674
 B);// -- -	5674
++ B);// --	5674
 THIS IS A	5460
 IN ORDER TO	5427
 YOU WANT TO	5378

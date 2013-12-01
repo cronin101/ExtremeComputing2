@@ -67,11 +67,11 @@ assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.o
 	($(exists) $(mydir)s0925570_task_6.out && $(delete) $(mydir)s0925570_task_6.out) || true
 	$(streaming) \
 		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \
-		-D mapred.text.key.comparator.options=-nr \
+		-D mapred.text.key.comparator.options="-k1nr" \
 		-D mapred.reduce.tasks=1 \
 		-input $(mydir)s0925570_task_5.out \
 		-output $(mydir)s0925570_task_6.out \
-		-file ./flip_tuples_over_500.py -mapper ./flip_tuples_over_500.py \
+		-file ./flip_top_twenty.py -mapper ./flip_top_twenty.py \
 		-file ./take_twenty_reducer.rb -reducer ./take_twenty_reducer.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_6.out/part-00000 | head -20 > ./results/task_six.out) || true
 
@@ -82,7 +82,6 @@ assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.o
 		-D stream.num.map.output.key.fields=2 \
 		-D mapred.reduce.tasks=1 \
 		-D mapred.text.key.comparator.options="-k1n -k2n" \
-		-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \
 		-input  /user/s1250553/ex2/matrixLarge.txt \
 		-output $(mydir)/s0925570_task_7.out \
 		-file ./transpose_map.rb -mapper ./transpose_map.rb \
