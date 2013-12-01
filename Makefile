@@ -103,7 +103,7 @@ assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.o
 		-input /user/s1250553/ex2/uniSmall.txt \
 		-output $(mydir)/s0925570_task_8.out \
 		-file ./join_map.rb -mapper ./join_map.rb \
-		-file ./join_reduce.rb -reducer ./join_reducer.rb
+		-file ./join_reduce.rb -reducer ./join_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_8.out/part-00000 | head -20 > ./results/task_eight.out) || true
 
 clean:
