@@ -51,15 +51,28 @@ task_four.out:
 		-file ./wc_reduce.rb -reducer ./wc_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_4.out/part-00000 | head -20 > task_four.out) || true
 
-task_five.out:
+task_five.out: task_two.out
 	($(exists) $(mydir)s0925570_task_5.out && $(delete) $(mydir)s0925570_task_5.out) || true
 	$(streaming) \
 		-input $(mydir)s0925570_task_2.out\
 		-output $(mydir)s0925570_task_5.out\
 		-file ./trigram_count_map.py -mapper ./trigram_count_map.py\
 		-file ./trigram_count_reducer.py -reducer ./trigram_count_reducer.py
+	(hadoop dfs -cat $(mydir)s0925570_task_5.out/part-00000 | head -20 > task_five.out) || true
 
-assignment: task_one.out task_two.out task_three.out task_four.out task_five.out
+task_six.out: task_five.out
+	($(exists) $(mydir)s0925570_task_6.out && $(delete) $(mydir)s0925570_task_6.out) || true
+	$(streaming) \
+		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator\
+		-D mapred.text.key.comparator.options=-re\
+		-D mapred.reduce.tasks=1 \
+		-input $(mydir)s0925570_task_5.out\
+		-output $(mydir)s0925570_task_6.out\
+		-file ./flip_tuple_map.py -mapper ./flip_tuple_map.py\
+		-file ./take_twenty_reducer.rb -reducer ./take_twenty_reducer.rb
+	(hadoop dfs -cat $(mydir)s0925570_task_6.out/part-00000 | head -20 > task_six.out) || true
+
+assignment: task_one.out task_two.out task_three.out task_four.out task_five.out task_six.out
 
 clean:
 	rm ./*.out
