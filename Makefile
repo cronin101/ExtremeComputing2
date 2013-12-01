@@ -73,7 +73,7 @@ size = Large
 	(hadoop dfs -cat $(mydir)s0925570_task_6.out/part-00000 | head -20 > ./results/task_six.out) || true
 
 assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.out ./results/task_four.out \
-						./results/task_five.out ./results/task_six.out
+		./results/task_five.out ./results/task_six.out
 
 clean:
 	rm ./results/*.out
