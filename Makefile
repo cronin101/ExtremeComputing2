@@ -16,18 +16,18 @@ size = Large
 ./results/task_one.out: ./binaries/u_map ./binaries/u_reduce
 	($(exists) $(mydir)s0925570_task_1.out && $(delete) $(mydir)s0925570_task_1.out) || true
 	$(streaming) \
-		-input  /user/s1250553/ex2/web$(size).txt\
-		-output $(mydir)s0925570_task_1.out\
-		-file ./binaries/u_map -mapper ./binaries/u_map\
+		-input  /user/s1250553/ex2/web$(size).txt \
+		-output $(mydir)s0925570_task_1.out \
+		-file ./binaries/u_map -mapper ./binaries/u_map \
 		-file ./binaries/u_reduce -reducer ./binaries/u_reduce
 	(hadoop dfs -cat $(mydir)s0925570_task_1.out/part-00000 | head -20 > ./results/task_one.out) || true
 
 ./results/task_two.out: ./binaries/u_map ./binaries/u_reduce_uniq
 	($(exists) $(mydir)s0925570_task_2.out && $(delete) $(mydir)s0925570_task_2.out) || true
 	$(streaming) \
-		-input  /user/s1250553/ex2/web$(size).txt\
-		-output $(mydir)s0925570_task_2.out\
-		-file ./binaries/u_map -mapper ./binaries/u_map\
+		-input  /user/s1250553/ex2/web$(size).txt \
+		-output $(mydir)s0925570_task_2.out \
+		-file ./binaries/u_map -mapper ./binaries/u_map \
 		-file ./binaries/u_reduce_uniq -reducer ./binaries/u_reduce_uniq
 	(hadoop dfs -cat $(mydir)s0925570_task_2.out/part-00000 | head -20 > ./results/task_two.out) || true
 
@@ -35,9 +35,9 @@ size = Large
 	($(exists) $(mydir)s0925570_task_3.out && $(delete) $(mydir)s0925570_task_3.out) || true
 	$(streaming) \
 		-D mapred.reduce.tasks=1 \
-		-input  /user/s1250553/ex2/web$(size).txt\
-		-output $(mydir)s0925570_task_3.out\
-		-file ./wc_map.rb -mapper ./wc_map.rb\
+		-input  /user/s1250553/ex2/web$(size).txt \
+		-output $(mydir)s0925570_task_3.out \
+		-file ./wc_map.rb -mapper ./wc_map.rb \
 		-file ./wc_reduce.rb -reducer ./wc_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_3.out/part-00000 | head -20 > ./results/task_three.out) || true
 
@@ -45,30 +45,30 @@ size = Large
 	($(exists) $(mydir)s0925570_task_4.out && $(delete) $(mydir)s0925570_task_4.out) || true
 	$(streaming) \
 		-D mapred.reduce.tasks=1 \
-		-input  /user/s1250553/ex2/web$(size).txt\
-		-output $(mydir)s0925570_task_4.out\
-		-file ./wc_prob_map.rb -mapper ./wc_prob_map.rb\
+		-input  /user/s1250553/ex2/web$(size).txt \
+		-output $(mydir)s0925570_task_4.out \
+		-file ./wc_prob_map.rb -mapper ./wc_prob_map.rb \
 		-file ./wc_reduce.rb -reducer ./wc_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_4.out/part-00000 | head -20 > ./results/task_four.out) || true
 
 ./results/task_five.out: ./results/task_two.out
 	($(exists) $(mydir)s0925570_task_5.out && $(delete) $(mydir)s0925570_task_5.out) || true
 	$(streaming) \
-		-input $(mydir)s0925570_task_2.out\
-		-output $(mydir)s0925570_task_5.out\
-		-file ./trigram_count_map.py -mapper ./trigram_count_map.py\
+		-input $(mydir)s0925570_task_2.out \
+		-output $(mydir)s0925570_task_5.out \
+		-file ./trigram_count_map.py -mapper ./trigram_count_map.py \
 		-file ./trigram_count_reducer.py -reducer ./trigram_count_reducer.py
 	(hadoop dfs -cat $(mydir)s0925570_task_5.out/part-00000 | head -20 > ./results/task_five.out) || true
 
 ./results/task_six.out: ./results/task_five.out
 	($(exists) $(mydir)s0925570_task_6.out && $(delete) $(mydir)s0925570_task_6.out) || true
 	$(streaming) \
-		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator\
-		-D mapred.text.key.comparator.options=-nr\
+		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \
+		-D mapred.text.key.comparator.options=-nr \
 		-D mapred.reduce.tasks=1 \
-		-input $(mydir)s0925570_task_5.out\
-		-output $(mydir)s0925570_task_6.out\
-		-file ./flip_tuples_over_500.py -mapper ./flip_tuples_over_500.py\
+		-input $(mydir)s0925570_task_5.out \
+		-output $(mydir)s0925570_task_6.out \
+		-file ./flip_tuples_over_500.py -mapper ./flip_tuples_over_500.py \
 		-file ./take_twenty_reducer.rb -reducer ./take_twenty_reducer.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_6.out/part-00000 | head -20 > ./results/task_six.out) || true
 
