@@ -76,3 +76,4 @@ assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.o
 
 clean:
 	rm ./results/*.out
+	hadoop dfs -rmr $(mydir)s0925570_*.out
