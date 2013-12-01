@@ -64,11 +64,11 @@ task_six.out: task_five.out
 	($(exists) $(mydir)s0925570_task_6.out && $(delete) $(mydir)s0925570_task_6.out) || true
 	$(streaming) \
 		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator\
-		-D mapred.text.key.comparator.options=-re\
+		-D mapred.text.key.comparator.options=-nr\
 		-D mapred.reduce.tasks=1 \
 		-input $(mydir)s0925570_task_5.out\
 		-output $(mydir)s0925570_task_6.out\
-		-file ./flip_tuple_map.py -mapper ./flip_tuple_map.py\
+		-file ./flip_tuples_over_500.py -mapper ./flip_tuples_over_500.py\
 		-file ./take_twenty_reducer.rb -reducer ./take_twenty_reducer.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_6.out/part-00000 | head -20 > task_six.out) || true
 
