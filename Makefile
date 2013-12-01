@@ -4,6 +4,9 @@ delete = hadoop dfs -rmr
 mydir = /user/s0925570/
 size = Large
 
+assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.out ./results/task_four.out \
+		./results/task_five.out ./results/task_six.out ./results/task_seven.out
+
 ./binaries/u_map:
 	ghc -O3 ./upper_map.hs -o ./binaries/u_map
 
@@ -72,8 +75,19 @@ size = Large
 		-file ./take_twenty_reducer.rb -reducer ./take_twenty_reducer.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_6.out/part-00000 | head -20 > ./results/task_six.out) || true
 
-assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.out ./results/task_four.out \
-		./results/task_five.out ./results/task_six.out
+./results/task_seven.out:
+	($(exists) $(mydir)s0925570_task_7.out && $(delete) $(mydir)s0925570_task_7.out) || true
+	$(streaming) \
+		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \
+		-D stream.num.map.output.key.fields=2 \
+		-D mapred.reduce.tasks=1 \
+		-D mapred.text.key.comparator.options="-k1n -k2n" \
+		-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \
+		-input  /user/s1250553/ex2/matrixLarge.txt \
+		-output $(mydir)/s0925570_task_7.out \
+		-file ./transpose_map.rb -mapper ./transpose_map.rb \
+		-file ./transpose_reduce.rb -reducer ./transpose_reduce.rb
+	(hadoop dfs -cat $(mydir)s0925570_task_7.out/part-00000 | head -20 > ./results/task_seven.out) || true
 
 clean:
 	rm ./results/*.out
