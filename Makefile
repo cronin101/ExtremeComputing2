@@ -87,7 +87,7 @@ assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.o
 		-D mapred.text.key.comparator.options="-k1n -k2n" \
 		-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \
 		-input  /user/s1250553/ex2/matrix$(size).txt \
-		-output $(mydir)/s0925570_task_7.out \
+		-output $(mydir)s0925570_task_7.out \
 		-file ./transpose_map.rb -mapper ./transpose_map.rb \
 		-file ./binaries/t_reduce -reducer ./binaries/t_reduce
 	(hadoop dfs -cat $(mydir)s0925570_task_7.out/part-00000 | head -20 > ./results/task_seven.out) || true
@@ -100,8 +100,8 @@ assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.o
 		-D stream.num.map.output.key.fields=2 \
 		-D num.key.fields.for.partition=1 \
 		-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \
-		-input /user/s1250553/ex2/uniSmall.txt \
-		-output $(mydir)/s0925570_task_8.out \
+		-input /user/s1250553/ex2/uni$(size).txt \
+		-output $(mydir)s0925570_task_8.out \
 		-file ./join_map.rb -mapper ./join_map.rb \
 		-file ./join_reduce.rb -reducer ./join_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_8.out/part-00000 | head -20 > ./results/task_eight.out) || true
