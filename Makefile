@@ -82,7 +82,8 @@ assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.o
 		-D stream.num.map.output.key.fields=2 \
 		-D mapred.reduce.tasks=1 \
 		-D mapred.text.key.comparator.options="-k1n -k2n" \
-		-input  /user/s1250553/ex2/matrixLarge.txt \
+		-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \
+		-input  /user/s1250553/ex2/matrix$(size).txt \
 		-output $(mydir)/s0925570_task_7.out \
 		-file ./transpose_map.rb -mapper ./transpose_map.rb \
 		-file ./transpose_reduce.rb -reducer ./transpose_reduce.rb
