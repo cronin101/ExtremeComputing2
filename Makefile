@@ -24,6 +24,7 @@ assignment: ./exc-mr.txt
 
 ./results/task_one.out: ./bin/u_map
 	- $(exists) $(mydir)s0925570_task_1.out && $(delete) $(mydir)s0925570_task_1.out
+	# We do not need to run any Reducers for this task. Simply map every line of the input to uppercase.
 	$(streaming) \
 		-D mapred.reduce.tasks=0 \
 		-input  /user/s1250553/ex2/web$(size).txt \
@@ -42,6 +43,7 @@ assignment: ./exc-mr.txt
 
 ./results/task_three.out:
 	($(exists) $(mydir)s0925570_task_3.out && $(delete) $(mydir)s0925570_task_3.out) || true
+	#Only using one Reducer, its job is to combine the partial counts with complexity O(Mappers).
 	$(streaming) \
 		-D mapred.reduce.tasks=1 \
 		-input  /user/s1250553/ex2/web$(size).txt \
@@ -52,6 +54,7 @@ assignment: ./exc-mr.txt
 
 ./results/task_four.out:
 	- $(exists) $(mydir)s0925570_task_4.out && $(delete) $(mydir)s0925570_task_4.out
+	#Same as previous task, a single Reducer is used.
 	$(streaming) \
 		-D mapred.reduce.tasks=1 \
 		-input  /user/s1250553/ex2/web$(size).txt \
@@ -71,6 +74,9 @@ assignment: ./exc-mr.txt
 
 ./results/task_six.out: ./results/task_five.out
 	- $(exists) $(mydir)s0925570_task_6.out && $(delete) $(mydir)s0925570_task_6.out
+	# Each Mapper emits the top 20 frequency (count, trigram) pairs.
+	# The result, sized O(Mappers), is sorted by decreasing numerical frequency and the single Reducer
+	# prints the first 20.
 	$(streaming) \
 		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \
 		-D mapred.text.key.comparator.options="-k1nr" \
@@ -83,6 +89,10 @@ assignment: ./exc-mr.txt
 
 ./results/task_seven.out: ./bin/t_reduce
 	- $(exists) $(mydir)s0925570_task_7.out && $(delete) $(mydir)s0925570_task_7.out
+	# The Mappers emit (j, i, n) for each Aij = n. The result is sorted by increasing j then increasing i.
+	# The processing is done by a single Reducer with complexity O(M) for a matrix with M elements, this could
+	# be spread across multiple reducers and then combined by using a total-order-partitioner and
+	# specifying split-points.
 	$(streaming) \
 		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \
 		-D stream.num.map.output.key.fields=2 \
@@ -97,6 +107,12 @@ assignment: ./exc-mr.txt
 
 ./results/task_eight.out:
 	- $(exists) $(mydir)s0925570_task_8.out && $(delete) $(mydir)s0925570_task_8.out
+	# Each record with student_id as its primary key emits (id, 'primary', fields).
+	# Each record with student_id as its foreign key emits (id, 'secondry', fields).
+	# The data is partitioned so that tuples sharing the same id will go to the same reducer.
+	# The data is sorted so that within a reducer, the secondary records for a given id will
+	# follow the primary record for that id, by numeric sorting on id
+	# followed by sorting on 'primary'/'secondary'.
 	$(streaming) \
 		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \
 		-D mapred.text.key.comparator.options="-k1n -k2" \
