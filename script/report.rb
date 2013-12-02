@@ -16,7 +16,7 @@ def results(task, file)
   puts "\nTask #{task} results end\n"
 end
 
-puts "Code (Makefile used for all tasks) begin\n\n<./Makefile\n\n"
+puts "Code (Makefile used for all tasks) begin\n\n<./Makefile>\n\n"
 puts IO.read './Makefile'
 puts "\n<./Makefile>\n\nCode (Makefile used for all tasks) end\n"
 

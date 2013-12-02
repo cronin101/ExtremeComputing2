@@ -19,6 +19,9 @@ assignment: ./exc-mr.txt
 ./bin/u_reduce_uniq:
 	ghc -O3 ./src/upper_reducer_uniq.hs -o ./bin/u_reduce_uniq
 
+./bin/t_reduce:
+	g++ -O3 ./src/transpose_reduce.cpp -o ./bin/t_reduce
+
 ./results/task_one.out: ./bin/u_map
 	($(exists) $(mydir)s0925570_task_1.out && $(delete) $(mydir)s0925570_task_1.out) || true
 	$(streaming) \
