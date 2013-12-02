@@ -28,7 +28,7 @@ assignment: ./exc-mr.txt
 		-D mapred.reduce.tasks=0 \
 		-input  /user/s1250553/ex2/web$(size).txt \
 		-output $(mydir)s0925570_task_1.out \
-		-file ./bin/u_map -mapper ./bin/u_map \
+		-file ./bin/u_map -mapper ./bin/u_map
 	(hadoop dfs -cat $(mydir)s0925570_task_1.out/part-00000 | head -20 > ./results/task_one.out) || true
 
 ./results/task_two.out: ./bin/u_map_uniq ./bin/u_reduce_uniq
