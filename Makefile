@@ -108,7 +108,7 @@ assignment: ./exc-mr.txt
 ./results/task_eight.out:
 	- $(exists) $(mydir)s0925570_task_8.out && $(delete) $(mydir)s0925570_task_8.out
 	# Each record with student_id as its primary key emits (id, 'primary', fields).
-	# Each record with student_id as its foreign key emits (id, 'secondry', fields).
+	# Each record with student_id as its foreign key emits (id, 'secondary', fields).
 	# The data is partitioned so that tuples sharing the same id will go to the same reducer.
 	# The data is sorted so that within a reducer, the secondary records for a given id will
 	# follow the primary record for that id, by numeric sorting on id
