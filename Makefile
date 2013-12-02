@@ -13,8 +13,8 @@ assignment: ./exc-mr.txt
 ./binaries/u_map:
 	ghc -O3 ./upper_map.hs -o ./binaries/u_map
 
-./binaries/u_reduce:
-	ghc -O3 ./upper_reducer.hs -o ./binaries/u_reduce
+./binaries/u_map_uniq:
+	ghc -O3 ./upper_map_uniq.hs -o ./binaries/u_map_uniq
 
 ./binaries/u_reduce_uniq:
 	ghc -O3 ./upper_reducer_uniq.hs -o ./binaries/u_reduce_uniq
@@ -22,21 +22,21 @@ assignment: ./exc-mr.txt
 ./binaries/t_reduce:
 	g++ -O3 ./transpose_reduce.cpp -o ./binaries/t_reduce
 
-./results/task_one.out: ./binaries/u_map ./binaries/u_reduce
+./results/task_one.out: ./binaries/u_map
 	($(exists) $(mydir)s0925570_task_1.out && $(delete) $(mydir)s0925570_task_1.out) || true
 	$(streaming) \
+		-D mapred.reduce.tasks=0 \
 		-input  /user/s1250553/ex2/web$(size).txt \
 		-output $(mydir)s0925570_task_1.out \
-		-file ./binaries/u_map -mapper ./binaries/u_map \
-		-file ./binaries/u_reduce -reducer ./binaries/u_reduce
+		-file ./binaries/u_map -mapper ./binaries/u_map
 	(hadoop dfs -cat $(mydir)s0925570_task_1.out/part-00000 | head -20 > ./results/task_one.out) || true
 
-./results/task_two.out: ./binaries/u_map ./binaries/u_reduce_uniq
+./results/task_two.out: ./binaries/u_map_uniq ./binaries/u_reduce_uniq
 	($(exists) $(mydir)s0925570_task_2.out && $(delete) $(mydir)s0925570_task_2.out) || true
 	$(streaming) \
 		-input  /user/s1250553/ex2/web$(size).txt \
 		-output $(mydir)s0925570_task_2.out \
-		-file ./binaries/u_map -mapper ./binaries/u_map \
+		-file ./binaries/u_map_uniq -mapper ./binaries/u_map_uniq \
 		-file ./binaries/u_reduce_uniq -reducer ./binaries/u_reduce_uniq
 	(hadoop dfs -cat $(mydir)s0925570_task_2.out/part-00000 | head -20 > ./results/task_two.out) || true
 
@@ -110,5 +110,6 @@ assignment: ./exc-mr.txt
 	(hadoop dfs -cat $(mydir)s0925570_task_8.out/part-00000 | head -20 > ./results/task_eight.out) || true
 
 clean:
+	rm ./binaries/*
 	rm ./results/*.out
 	hadoop dfs -rmr $(mydir)s0925570_*.out
