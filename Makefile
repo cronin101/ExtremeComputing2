@@ -4,8 +4,11 @@ delete = hadoop dfs -rmr
 mydir = /user/s0925570/
 size = Large
 
-assignment: ./results/task_one.out ./results/task_two.out ./results/task_three.out ./results/task_four.out \
+assignment: ./exc-mr.txt
+
+./exc-mr.txt: ./results/task_one.out ./results/task_two.out ./results/task_three.out ./results/task_four.out \
 		./results/task_five.out ./results/task_six.out ./results/task_seven.out ./results/task_eight.out
+	ruby ./report.rb > ./exc-mr.txt
 
 ./binaries/u_map:
 	ghc -O3 ./upper_map.hs -o ./binaries/u_map

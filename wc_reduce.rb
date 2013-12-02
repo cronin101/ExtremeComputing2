@@ -8,4 +8,4 @@ ARGF.each do |line|
   words += wcount
 end
 
-puts "#{lines}\t#{words}"
+puts "#{words}\t#{lines}"

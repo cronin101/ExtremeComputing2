@@ -10,5 +10,5 @@ main = interact $ unlines . map snd . uniqueKeys . tups . lines
       where
         unique _ [] = []
         unique last (tup:tups)
-          | fst last == fst tup = unique last tups
+          | snd last == snd tup = unique last tups
           | otherwise           = tup : unique tup tups
