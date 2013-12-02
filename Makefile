@@ -43,7 +43,7 @@ assignment: ./exc-mr.txt
 	- hadoop dfs -cat $(mydir)s0925570_task_2.out/part-00000 | head -20 > ./results/task_two.out
 
 ./results/task_three.out:
-	($(exists) $(mydir)s0925570_task_3.out && $(delete) $(mydir)s0925570_task_3.out) || true
+	- $(exists) $(mydir)s0925570_task_3.out && $(delete) $(mydir)s0925570_task_3.out
 	#Only using one Reducer, its job is to combine the partial counts with complexity O(Mappers).
 	$(streaming) \
 		-D mapred.reduce.tasks=1 \
