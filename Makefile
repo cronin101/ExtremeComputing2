@@ -8,36 +8,36 @@ assignment: ./exc-mr.txt
 
 ./exc-mr.txt: ./results/task_one.out ./results/task_two.out ./results/task_three.out ./results/task_four.out \
 		./results/task_five.out ./results/task_six.out ./results/task_seven.out ./results/task_eight.out
-	ruby ./report.rb > ./exc-mr.txt
+	ruby ./script/report.rb > ./exc-mr.txt
 
-./binaries/u_map:
-	ghc -O3 ./upper_map.hs -o ./binaries/u_map
+./bin/u_map:
+	ghc -O3 ./src/upper_map.hs -o ./bin/u_map
 
-./binaries/u_map_uniq:
-	ghc -O3 ./upper_map_uniq.hs -o ./binaries/u_map_uniq
+./bin/u_map_uniq:
+	ghc -O3 ./upper_map_uniq.hs -o ./bin/u_map_uniq
 
-./binaries/u_reduce_uniq:
-	ghc -O3 ./upper_reducer_uniq.hs -o ./binaries/u_reduce_uniq
+./bin/u_reduce_uniq:
+	ghc -O3 ./src/upper_reducer_uniq.hs -o ./bin/u_reduce_uniq
 
-./binaries/t_reduce:
-	g++ -O3 ./transpose_reduce.cpp -o ./binaries/t_reduce
+./bin/t_reduce:
+	g++ -O3 ./src/transpose_reduce.cpp -o ./bin/t_reduce
 
-./results/task_one.out: ./binaries/u_map
+./results/task_one.out: ./bin/u_map
 	($(exists) $(mydir)s0925570_task_1.out && $(delete) $(mydir)s0925570_task_1.out) || true
 	$(streaming) \
 		-D mapred.reduce.tasks=0 \
 		-input  /user/s1250553/ex2/web$(size).txt \
 		-output $(mydir)s0925570_task_1.out \
-		-file ./binaries/u_map -mapper ./binaries/u_map
+		-file ./bin/u_map -mapper ./bin/u_map \
 	(hadoop dfs -cat $(mydir)s0925570_task_1.out/part-00000 | head -20 > ./results/task_one.out) || true
 
-./results/task_two.out: ./binaries/u_map_uniq ./binaries/u_reduce_uniq
+./results/task_two.out: ./bin/u_map_uniq ./bin/u_reduce_uniq
 	($(exists) $(mydir)s0925570_task_2.out && $(delete) $(mydir)s0925570_task_2.out) || true
 	$(streaming) \
 		-input  /user/s1250553/ex2/web$(size).txt \
 		-output $(mydir)s0925570_task_2.out \
-		-file ./binaries/u_map_uniq -mapper ./binaries/u_map_uniq \
-		-file ./binaries/u_reduce_uniq -reducer ./binaries/u_reduce_uniq
+		-file ./bin/u_map_uniq -mapper ./bin/u_map_uniq \
+		-file ./bin/u_reduce_uniq -reducer ./bin/u_reduce_uniq
 	(hadoop dfs -cat $(mydir)s0925570_task_2.out/part-00000 | head -20 > ./results/task_two.out) || true
 
 ./results/task_three.out:
@@ -46,8 +46,8 @@ assignment: ./exc-mr.txt
 		-D mapred.reduce.tasks=1 \
 		-input  /user/s1250553/ex2/web$(size).txt \
 		-output $(mydir)s0925570_task_3.out \
-		-file ./wc_map.rb -mapper ./wc_map.rb \
-		-file ./wc_reduce.rb -reducer ./wc_reduce.rb
+		-file ./script/wc_map.rb -mapper ./script/wc_map.rb \
+		-file ./script/wc_reduce.rb -reducer ./script/wc_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_3.out/part-00000 | head -20 > ./results/task_three.out) || true
 
 ./results/task_four.out:
@@ -56,8 +56,8 @@ assignment: ./exc-mr.txt
 		-D mapred.reduce.tasks=1 \
 		-input  /user/s1250553/ex2/web$(size).txt \
 		-output $(mydir)s0925570_task_4.out \
-		-file ./wc_prob_map.rb -mapper ./wc_prob_map.rb \
-		-file ./wc_reduce.rb -reducer ./wc_reduce.rb
+		-file ./script/wc_prob_map.rb -mapper ./script/wc_prob_map.rb \
+		-file ./script/wc_reduce.rb -reducer ./script/wc_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_4.out/part-00000 | head -20 > ./results/task_four.out) || true
 
 ./results/task_five.out: ./results/task_two.out
@@ -65,8 +65,8 @@ assignment: ./exc-mr.txt
 	$(streaming) \
 		-input $(mydir)s0925570_task_2.out \
 		-output $(mydir)s0925570_task_5.out \
-		-file ./trigram_count_map.py -mapper ./trigram_count_map.py \
-		-file ./trigram_count_reducer.py -reducer ./trigram_count_reducer.py
+		-file ./script/trigram_count_map.py -mapper ./script/trigram_count_map.py \
+		-file ./script/trigram_count_reducer.py -reducer ./script/trigram_count_reducer.py
 	(hadoop dfs -cat $(mydir)s0925570_task_5.out/part-00000 | head -20 > ./results/task_five.out) || true
 
 ./results/task_six.out: ./results/task_five.out
@@ -77,11 +77,11 @@ assignment: ./exc-mr.txt
 		-D mapred.reduce.tasks=1 \
 		-input $(mydir)s0925570_task_5.out \
 		-output $(mydir)s0925570_task_6.out \
-		-file ./flip_top_twenty.py -mapper ./flip_top_twenty.py \
-		-file ./take_twenty_reducer.rb -reducer ./take_twenty_reducer.rb
+		-file ./script/flip_top_twenty.py -mapper ./script/flip_top_twenty.py \
+		-file ./script/take_twenty_reducer.rb -reducer ./script/take_twenty_reducer.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_6.out/part-00000 | head -20 > ./results/task_six.out) || true
 
-./results/task_seven.out: ./binaries/t_reduce
+./results/task_seven.out: ./bin/t_reduce
 	($(exists) $(mydir)s0925570_task_7.out && $(delete) $(mydir)s0925570_task_7.out) || true
 	$(streaming) \
 		-D mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \
@@ -91,8 +91,8 @@ assignment: ./exc-mr.txt
 		-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \
 		-input  /user/s1250553/ex2/matrix$(size).txt \
 		-output $(mydir)s0925570_task_7.out \
-		-file ./transpose_map.rb -mapper ./transpose_map.rb \
-		-file ./binaries/t_reduce -reducer ./binaries/t_reduce
+		-file ./script/transpose_map.rb -mapper ./script/transpose_map.rb \
+		-file ./bin/t_reduce -reducer ./bin/t_reduce
 	(hadoop dfs -cat $(mydir)s0925570_task_7.out/part-00000 | head -20 > ./results/task_seven.out) || true
 
 ./results/task_eight.out:
@@ -105,11 +105,11 @@ assignment: ./exc-mr.txt
 		-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \
 		-input /user/s1250553/ex2/uni$(size).txt \
 		-output $(mydir)s0925570_task_8.out \
-		-file ./join_map.rb -mapper ./join_map.rb \
-		-file ./join_reduce.rb -reducer ./join_reduce.rb
+		-file ./script/join_map.rb -mapper ./script/join_map.rb \
+		-file ./script/join_reduce.rb -reducer ./script/join_reduce.rb
 	(hadoop dfs -cat $(mydir)s0925570_task_8.out/part-00000 | head -20 > ./results/task_eight.out) || true
 
 clean:
-	rm ./binaries/*
+	rm ./bin/*
 	rm ./results/*.out
 	hadoop dfs -rmr $(mydir)s0925570_*.out
