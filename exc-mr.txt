@@ -1,0 +1,236 @@
+Task 1 code begin
+
+Makefile:
+
+streaming = hadoop jar /opt/hadoop/hadoop-0.20.2/contrib/streaming/hadoop-0.20.2-streaming.jar
+exists = hadoop fs -test -e
+delete = hadoop dfs -rmr
+mydir = /user/s0925570/
+size = Large
+
+./binaries/u_map:
+	ghc -O3 ./upper_map.hs -o ./binaries/u_map
+ 
+./binaries/u_reduce:
+	ghc -O3 ./upper_reducer.hs -o ./binaries/u_reduce
+ 
+./results/task_one.out: ./binaries/u_map ./binaries/u_reduce
+	($(exists) $(mydir)s0925570_task_1.out && $(delete) $(mydir)s0925570_task_1.out) || true
+	$(streaming) \
+		-input  /user/s1250553/ex2/web$(size).txt \
+		-output $(mydir)s0925570_task_1.out \
+		-file ./binaries/u_map -mapper ./binaries/u_map \
+		-file ./binaries/u_reduce -reducer ./binaries/u_reduce
+	(hadoop dfs -cat $(mydir)s0925570_task_1.out/part-00000 | head -20 > ./results/task_one.out) || true
+	
+:end Makefile
+
+upper_map.hs:
+
+import Data.Char (toUpper)
+import Data.List (lines, unlines)
+
+main = interact $ unlines . map (\l -> keyF l ++ "\t" ++ valueF l) . lines
+  where
+    keyF   = filter (/= '\t') . valueF
+    valueF = map toUpper
+
+:end upper_map.hs
+
+upper_reducer.hs:
+
+import Data.List (lines, unlines)
+import Data.List.Split (splitOn)
+import Data.String.Utils (join)
+
+main = interact $ unlines . map dropKey . lines
+  where
+    dropKey = join "\t" . tail . splitOn "\t"
+
+:end upper_reducer.hs
+
+Task 1 code end
+
+Task 1 results begin
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &NBSP;CANADIAN NATIONAL CHAMPIONSHIPS AND THE                                                                                                     CANADIAN OPEN TOURNAMENT 	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    THE LATEST TECHNOLOGY TO HELP YOU LEARN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          &BULL; STATE-OF-THE-ART SPEECH RECOGNITION TECHNOLOGY  ENABLES YOU TO EVALUATE YOUR PRONUNCIATION, AND AUTOMATICALLY DETECTS AND CORRECTS YOUR ERRORS (USING S.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           KOHL URGES NTIA & CONGRESS TO ADD EMERGENCY FUNDS TO DTV                                                                                                                                                                                                                                                                                                                                                          01/07/2009 	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       WHAT CAREER                                                                     SERVICES ARE                                                                     OFFERED FOR                                                                     ALUMNI?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 SYSTEM REQUIREMENTS                                                                                                                                                                                                                                                                                                                                  WINDOWS:                                                                                                                             95/ 98/2000/NT                                                                                                                                                                                                     MINIMUM RAM:                                                                                                                    32 MB                                                                                                                                                                                                     FOR SOUND FEATURE OPTION:                                                                                                                             SOUND CARD                                                                                                                                                                                                     MINIMUM CPU:                                                                                                                    PENTIUM 233MHZ                                                                                                                                                                                                     MINIMUM MONITOR REQUIREMENT                                                                                                                    HIGH COLOR (16BIT) 800 X 600                                                                                                                                                                                                     HARD DISK SPACE                                                                                                                             20&NBSP; MB                                                                                                                                        THERE MAY BE SEVERAL REASONS FOR YOUR DOWNLOAD DIFFICULTIES.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      &NBSP;                                             &NBSP;                                             &NBSP;                                                                                                                             NORMALLY A 2-PLAYER GAME, 21ST CENTURY CRIBBAGE IS A FUN WAY TO PLAY ALONE OR PRACTICE FOR YOUR NEXT OPPONENT.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  &NBSP;                                                                                                                                                                                                 ALUMNI SERVICES                                                                                                                                                                                                                                                                                                                                                                     HOW CAN I GET AN ALUMNI EMAIL ADDRESS?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          CONTENTS ARE PROVIDED AND MAINTAINED BY THE MINISTRY OF HEALTH                  AND FAMILY WELFARE                                      &NBSP;                    	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                 DISCOVER                                                        MASSAGE THERAPY:                                                        THE ART AND SCIENCE                                                        OF                                                        HEALING.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                 DISCOVER                                                        MASSAGE THERAPY:                                                        THE ART AND SCIENCE                                                        OF                                                        HEALING.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                               10                                                                                                                             THE MOST FREQUENT LEAD.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                             ABOUT THIS BLOG         THE BADVISTA CAMPAIGN IS AN ADVOCATE FOR THE FREEDOM OF COMPUTER USERS, OPPOSING ADOPTION OF MICROSOFT WINDOWS VISTA AND PROMOTING FREE (AS IN FREEDOM) SOFTWARE ALTERNATIVES.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                       THIS RICHLY INTERACTIVE MAP-BASED RESOURCE WILL ENABLE THE CONSERVATION COMMUNITY TO CREATE COMPELLING NARRATIVES SPOTLIGHTING KEY REGIONAL AND GLOBAL ISSUES.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                      BUSINESS AND OFFICE TECHNOLOGY                                                                                                                                                    START   DATE                                                                                                                                                    TIME                                                     (M-F)                                                                                                                                                   HOURS                                                                                               SEMESTERS                                                                                                       APPROX.	
+                                                                                                                                                                                                                                                                                                                                                                                                                           (AN EMAIL WILLBE SENT TO YOU   &NBSP;   WIT   HT   H   E    DOWNLOAD LINKUPON SUBMISSION.	
+                                                                                                                                                                                                                                                                                                                                                                                                                        PRENATAL                                                        MASSAGE -  THIS                                                        IS A TYPE OF CUSTOM                                                        MASSAGE GIVEN TO                                                        WOMEN THAT ARE                                                        PREGNANT.	
+                                                                                                                                                                                                                                                                                                                                                                                                           FREE8 POWERFUL SUCCESS SECRETS                                                                                               A FREE 8 DAY MINI COURSEFULL OF FANTASTIC TIPS AND STORIESTHAT REVEAL MORE SUCCESS SECRETS.	
+                                                                                                                                                                                                                                                                                                                                                                                                           I UNDERSTAND THAT THE PORT AUTHORITY OF NY &AMP; NJ MAY OCCASIONALLY SEND E-MAIL,                                                                    NOT DIRECTLY RELATED TO INCIDENTS OR EVENT THAT MAY DELAY MY TRIP ACROSS PORT AUTHORITY                                                                    BRIDGES OR TUNNELS.	
+                                                                                                                                                                                                                                                                                                                                                                                                           I UNDERSTAND THAT THE PORT AUTHORITY OF NY &AMP; NJ MAY OCCASIONALLY SEND E-MAIL,                                                                    NOT DIRECTLY RELATED TO INCIDENTS OR EVENT THAT MAY DELAY MY TRIP ACROSS PORT AUTHORITY                                                                    BRIDGES OR TUNNELS.	
+                                                                                                                                                                                                                                                                                                                                                                                                          WELCOME TO METHAGORA, NATURE METHODSS COMMENTING FORUM.	
+                                                                                                                                                                                                                                                                                                                                                                                                          
+Task 1 results end
+
+Task 2 code begin
+
+Makefile:
+
+./binaries/u_reduce_uniq:
+        ghc -O3 ./upper_reducer_uniq.hs -o ./binaries/u_reduce_uniq
+        
+./results/task_two.out: ./binaries/u_map ./binaries/u_reduce_uniq
+        ($(exists) $(mydir)s0925570_task_2.out && $(delete) $(mydir)s0925570_task_2.out) || true
+        $(streaming) \
+                -input  /user/s1250553/ex2/web$(size).txt \
+                -output $(mydir)s0925570_task_2.out \
+                -file ./binaries/u_map -mapper ./binaries/u_map \
+                -file ./binaries/u_reduce_uniq -reducer ./binaries/u_reduce_uniq
+        (hadoop dfs -cat $(mydir)s0925570_task_2.out/part-00000 | head -20 > ./results/task_two.out) || true
+
+:end Makefile
+
+upper_reducer_uniq.hs:
+
+import Data.List (lines, unlines)
+import Data.List.Split (splitOn)
+import Data.String.Utils (join)
+import Control.Monad (liftM2)
+
+main = interact $ unlines . map snd . uniqueKeys . tups . lines
+  where
+    tups = map (liftM2 (,) head (join "\t" . tail) . splitOn "\t")
+    -- Notice that all of this is lazy and does not require seeing the entire input, only the previous.
+    uniqueKeys (t:ts) = t : unique t ts
+      where
+        unique _ [] = []
+        unique last (tup:tups)
+          | fst last == fst tup = unique last tups
+          | otherwise           = tup : unique tup tups
+
+:end upper_reducer_uniq.hs
+
+Task 2 code end
+
+Task 2 results begin
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &NBSP;CANADIAN NATIONAL CHAMPIONSHIPS AND THE                                                                                                     CANADIAN OPEN TOURNAMENT 	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    THE LATEST TECHNOLOGY TO HELP YOU LEARN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          &BULL; STATE-OF-THE-ART SPEECH RECOGNITION TECHNOLOGY  ENABLES YOU TO EVALUATE YOUR PRONUNCIATION, AND AUTOMATICALLY DETECTS AND CORRECTS YOUR ERRORS (USING S.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           KOHL URGES NTIA & CONGRESS TO ADD EMERGENCY FUNDS TO DTV                                                                                                                                                                                                                                                                                                                                                          01/07/2009 	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       WHAT CAREER                                                                     SERVICES ARE                                                                     OFFERED FOR                                                                     ALUMNI?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 SYSTEM REQUIREMENTS                                                                                                                                                                                                                                                                                                                                  WINDOWS:                                                                                                                             95/ 98/2000/NT                                                                                                                                                                                                     MINIMUM RAM:                                                                                                                    32 MB                                                                                                                                                                                                     FOR SOUND FEATURE OPTION:                                                                                                                             SOUND CARD                                                                                                                                                                                                     MINIMUM CPU:                                                                                                                    PENTIUM 233MHZ                                                                                                                                                                                                     MINIMUM MONITOR REQUIREMENT                                                                                                                    HIGH COLOR (16BIT) 800 X 600                                                                                                                                                                                                     HARD DISK SPACE                                                                                                                             20&NBSP; MB                                                                                                                                        THERE MAY BE SEVERAL REASONS FOR YOUR DOWNLOAD DIFFICULTIES.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      &NBSP;                                             &NBSP;                                             &NBSP;                                                                                                                             NORMALLY A 2-PLAYER GAME, 21ST CENTURY CRIBBAGE IS A FUN WAY TO PLAY ALONE OR PRACTICE FOR YOUR NEXT OPPONENT.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  &NBSP;                                                                                                                                                                                                 ALUMNI SERVICES                                                                                                                                                                                                                                                                                                                                                                     HOW CAN I GET AN ALUMNI EMAIL ADDRESS?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          CONTENTS ARE PROVIDED AND MAINTAINED BY THE MINISTRY OF HEALTH                  AND FAMILY WELFARE                                      &NBSP;                    	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                 DISCOVER                                                        MASSAGE THERAPY:                                                        THE ART AND SCIENCE                                                        OF                                                        HEALING.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                               10                                                                                                                             THE MOST FREQUENT LEAD.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                             ABOUT THIS BLOG         THE BADVISTA CAMPAIGN IS AN ADVOCATE FOR THE FREEDOM OF COMPUTER USERS, OPPOSING ADOPTION OF MICROSOFT WINDOWS VISTA AND PROMOTING FREE (AS IN FREEDOM) SOFTWARE ALTERNATIVES.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                       THIS RICHLY INTERACTIVE MAP-BASED RESOURCE WILL ENABLE THE CONSERVATION COMMUNITY TO CREATE COMPELLING NARRATIVES SPOTLIGHTING KEY REGIONAL AND GLOBAL ISSUES.	
+                                                                                                                                                                                                                                                                                                                                                                                                                                      BUSINESS AND OFFICE TECHNOLOGY                                                                                                                                                    START   DATE                                                                                                                                                    TIME                                                     (M-F)                                                                                                                                                   HOURS                                                                                               SEMESTERS                                                                                                       APPROX.	
+                                                                                                                                                                                                                                                                                                                                                                                                                           (AN EMAIL WILLBE SENT TO YOU   &NBSP;   WIT   HT   H   E    DOWNLOAD LINKUPON SUBMISSION.	
+                                                                                                                                                                                                                                                                                                                                                                                                                        PRENATAL                                                        MASSAGE -  THIS                                                        IS A TYPE OF CUSTOM                                                        MASSAGE GIVEN TO                                                        WOMEN THAT ARE                                                        PREGNANT.	
+                                                                                                                                                                                                                                                                                                                                                                                                           FREE8 POWERFUL SUCCESS SECRETS                                                                                               A FREE 8 DAY MINI COURSEFULL OF FANTASTIC TIPS AND STORIESTHAT REVEAL MORE SUCCESS SECRETS.	
+                                                                                                                                                                                                                                                                                                                                                                                                           I UNDERSTAND THAT THE PORT AUTHORITY OF NY &AMP; NJ MAY OCCASIONALLY SEND E-MAIL,                                                                    NOT DIRECTLY RELATED TO INCIDENTS OR EVENT THAT MAY DELAY MY TRIP ACROSS PORT AUTHORITY                                                                    BRIDGES OR TUNNELS.	
+                                                                                                                                                                                                                                                                                                                                                                                                          WELCOME TO METHAGORA, NATURE METHODSS COMMENTING FORUM.	
+                                                                                                                                                                                                                                                                                                                                                                                                      TRADEMARK&NBSP;&NBSP;&NBSP;&NBSP;INFORMATION&NBSP;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             &NBSP;                                                                                                    TRADEMARK INFORMATIONTHE MOST EFFICIENT AND EFFECTIVE MEANS TO ASSIST CUSTOMERS IN IDENTIFYING BLUETOOTH ENABLED PRODUCTS IS THROUGH BRANDING AND TRADEMARKS.	
+                                                                                                                                                                                                                                                                                                                                                                                               &QUOT;EAGLE                                        FEATHERS                                        TALK TO ME:                                        THEY SAY,                                        TOUCH US TO YOUR LIPS                                        AND KNOW THE WAY                                        WE KNEW THE WIND.	
+
+Task 2 results end
+
+Task 3 code begin
+
+Makefile:
+
+./results/task_three.out:
+        ($(exists) $(mydir)s0925570_task_3.out && $(delete) $(mydir)s0925570_task_3.out) || true
+        $(streaming) \
+                -D mapred.reduce.tasks=1 \
+                -input  /user/s1250553/ex2/web$(size).txt \
+                -output $(mydir)s0925570_task_3.out \
+                -file ./wc_map.rb -mapper ./wc_map.rb \
+                -file ./wc_reduce.rb -reducer ./wc_reduce.rb
+        (hadoop dfs -cat $(mydir)s0925570_task_3.out/part-00000 | head -20 > ./results/task_three.out) || true
+        
+:end Makefile
+
+wc_map.rb:
+
+#!/usr/bin/env ruby
+
+words = lines = 0
+
+ARGF.each do |line|
+  lines += 1
+  words += line.split.length
+end
+
+puts "#{lines}\t#{words}"
+
+:end wc_map.rb
+
+wc_reduce.rb:
+
+#!/usr/bin/env ruby
+
+lines = words = 0
+
+ARGF.each do |line|
+  lcount, wcount = line.split(/\t/).map(&:to_i)
+  lines += lcount
+  words += wcount
+end
+
+puts "#{lines}\t#{words}"
+
+:end wc_reduce.rb
+
+Task 3 code end
+
+Task 3 results begin
+
+5000000        69760386
+
+Task 3 results end
+
+Task 4 code begin
+
+Makefile:
+
+./results/task_four.out:
+        ($(exists) $(mydir)s0925570_task_4.out && $(delete) $(mydir)s0925570_task_4.out) || true
+        $(streaming) \
+                -D mapred.reduce.tasks=1 \
+                -input  /user/s1250553/ex2/web$(size).txt \
+                -output $(mydir)s0925570_task_4.out \
+                -file ./wc_prob_map.rb -mapper ./wc_prob_map.rb \
+                -file ./wc_reduce.rb -reducer ./wc_reduce.rb
+        (hadoop dfs -cat $(mydir)s0925570_task_4.out/part-00000 | head -20 > ./results/task_four.out) || true
+
+:end Makefile
+
+wc_prob_map.rb:
+
+#!/usr/bin/env ruby
+
+words = lines = 0
+
+ARGF.each do |line|
+  lines += 1 if rand(2 ** lines).zero?
+  line.split(/\s/).length.times { words += 1 if rand(2 ** words).zero? }
+end
+
+puts "#{(2 ** lines) - 1}\t#{(2 ** words) - 1}"
+
+:end wc_prob_map.rb
+
+Task 4 code end
+
+Task 4 results begin
+
+3407864        142606328
+
+Task 4 results end
