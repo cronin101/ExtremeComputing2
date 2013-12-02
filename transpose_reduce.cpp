@@ -7,7 +7,6 @@ using namespace std;
 
 int main(const int argc, const char** argv) {
   int current_row = 0;
-  istringstream instream;
   string line, row, col, n, rowbuffer;
 
   rowbuffer = "";
