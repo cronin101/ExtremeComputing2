@@ -8,6 +8,7 @@ assignment: ./exc-mr.txt
 
 ./exc-mr.txt: ./results/task_one.out ./results/task_two.out ./results/task_three.out ./results/task_four.out \
 		./results/task_five.out ./results/task_six.out ./results/task_seven.out ./results/task_eight.out
+	# Generate the hand-in report file using source-code and results returned.
 	ruby ./script/report.rb > ./exc-mr.txt
 
 ./bin/u_map:
