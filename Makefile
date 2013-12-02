@@ -44,7 +44,7 @@ assignment: ./exc-mr.txt
 
 ./results/task_three.out:
 	- $(exists) $(mydir)s0925570_task_3.out && $(delete) $(mydir)s0925570_task_3.out
-	#Only using one Reducer, its job is to combine the partial counts with complexity O(Mappers).
+	# Only using one Reducer, its job is to combine the partial counts with complexity O(Mappers).
 	$(streaming) \
 		-D mapred.reduce.tasks=1 \
 		-input  /user/s1250553/ex2/web$(size).txt \
@@ -55,7 +55,7 @@ assignment: ./exc-mr.txt
 
 ./results/task_four.out:
 	- $(exists) $(mydir)s0925570_task_4.out && $(delete) $(mydir)s0925570_task_4.out
-	#Same as previous task, a single Reducer is used.
+	# Same as previous task, a single Reducer is used.
 	$(streaming) \
 		-D mapred.reduce.tasks=1 \
 		-input  /user/s1250553/ex2/web$(size).txt \
